@@ -1,20 +1,5 @@
 <?php
 session_start();
-// Si ya hay una sesión activa, redirigir según el rol
-if(isset($_SESSION['nombre_rol'])) {
-    switch($_SESSION['nombre_rol']) {
-        case 'administrador':
-            header('Location: Administrador1.php');
-            break;
-        case 'vigilante':
-            header('Location: vigilante.php');
-            break;
-        case 'usuario':
-            header('Location: usuario.php');
-            break;
-    }
-    exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
@@ -251,22 +236,15 @@ if(isset($_SESSION['nombre_rol'])) {
 
                         <!-- Contraseña -->
                         <div class="input-group">
-                            <input type="password" name="contrasena" id="password"
+                            <input type="password" name="contrasena" 
                                    class="input input-bordered w-full input-with-icon" 
                                    placeholder="Ingrese su contraseña" required>
                             <i class="fas fa-lock input-icon"></i>
-                            <button type="button" 
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                                    onclick="togglePassword()">
-                                <i class="fas fa-eye" id="toggleIcon"></i>
-                            </button>
                         </div>
 
-                        <!-- Botón de ingreso -->
-                        <button type="submit" name="login" 
-                                class="btn btn-primary w-full btn-custom bg-gradient-to-r from-indigo-600 to-purple-600 border-0">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-                            Ingresar
+                        <!-- Botón de inicio de sesión -->
+                        <button type="submit" name="login" class="btn btn-primary w-full btn-custom">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
                         </button>
 
                         <!-- Divider -->
@@ -343,51 +321,6 @@ if(isset($_SESSION['nombre_rol'])) {
     <?php include 'components/footer.php'; ?>
 
     <script>
-        function togglePassword() {
-            const password = document.getElementById('password');
-            const toggleIcon = document.getElementById('toggleIcon');
-            
-            if (password.type === 'password') {
-                password.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            } else {
-                password.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            }
-        }
-
-        // Animaciones para los inputs
-        document.querySelectorAll('.input-with-icon').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-            });
-
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
-        });
-
-        // Animación para botones sociales
-        document.querySelectorAll('.social-login-btn').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-            });
-
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-
-            // Efecto de click
-            button.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-2px)';
-                }, 100);
-            });
-        });
-
         // Inicializar AOS
         AOS.init({
             duration: 800,
@@ -401,7 +334,7 @@ if(isset($_SESSION['nombre_rol'])) {
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: ' https://assets3.lottiefiles.com/packages/lf20_UJNc2t.json' // Animación de login
+            path: 'https://assets3.lottiefiles.com/packages/lf20_UJNc2t.json'
         });
     </script>
 </body>

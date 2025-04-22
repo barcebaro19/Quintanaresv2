@@ -254,7 +254,7 @@ include "controller/usuario.php";
 
                                 <!-- Apellido -->
                                 <div class="form-control">
-                                    <label class="label">
+                                    <label class="label">   
                                         <span class="label-text font-medium">Apellido:</span>
                                     </label>
                                     <div class="relative">

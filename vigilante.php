@@ -245,7 +245,7 @@ if(isset($_SESSION['nombre']));
 
             <!-- Footer con botón de cerrar sesión -->
             <div class="sidebar-footer">
-                <button onclick="window.location.href='controller/logout.php'" class="logout-button">
+                <button onclick="window.location.href='logout.php'" class="logout-button">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Cerrar Sesión</span>
                 </button>

@@ -70,7 +70,7 @@ $noticias = [
         <p>Tu hogar ideal en la ciudad.</p>
         <div class="search-bar">
             <input type="text" placeholder="Busca tu tema de interés">
-            <button>Buscar</button>
+            <button>Buscar</button> 
         </div>
     </div>
 

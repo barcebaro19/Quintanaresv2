@@ -236,6 +236,12 @@ if(isset($_SESSION['nombre']));
                         <i class="fas fa-car-side"></i>
                         <span>Vehículos</span>
                     </a>
+                    
+                    <!-- Botón de Cerrar Sesión -->
+                    <a href="logout.php" class="nav-link text-red-600 hover:bg-red-50 hover:text-red-700 mt-8">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
                 </nav>
             </div>
         </aside>

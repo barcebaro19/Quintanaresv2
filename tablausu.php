@@ -78,7 +78,7 @@ if(isset($_POST['buscar'])) {
 
             <!-- Búsqueda y Acciones -->
             <div class="flex flex-col md:flex-row gap-4 mb-6">
-                <form action="" method="POST" class="flex-1 flex gap-4">
+                <form action="tablausu.php" method="POST" class="flex-1 flex gap-4">
                     <div class="relative flex-1">
                         <input type="text" 
                                name="nom"
@@ -90,9 +90,9 @@ if(isset($_POST['buscar'])) {
                     <button type="submit" name="buscar" class="btn btn-primary">
                         <i class="fas fa-search mr-2"></i>Buscar
                     </button>
-                    <a href="tablausu.php" class="btn btn-ghost">
+                    <button type="button" onclick="limpiarBusqueda()" class="btn btn-ghost">
                         <i class="fas fa-sync-alt mr-2"></i>Limpiar
-                    </a>
+                    </button>
                 </form>
                 <div class="flex gap-2">
                     <a href="controller/exportar_usuarios.php" class="btn btn-secondary h-12 px-6 text-lg">
@@ -206,6 +206,10 @@ if(isset($_POST['buscar'])) {
             if (usuarioIdEliminar) {
                 window.location.href = `controller/eliminar_usuario.php?id=${usuarioIdEliminar}`;
             }
+        }
+
+        function limpiarBusqueda() {
+            window.location.href = 'tablausu.php';
         }
     </script>
 </body>
