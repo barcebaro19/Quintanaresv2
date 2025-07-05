@@ -1,4 +1,13 @@
 <?php
+require_once __DIR__ . '/../models/conexion.php';
+// Reglas de negocio implementadas:
+// 1. Solo los usuarios con rol de administrador pueden eliminar usuarios del sistema (ver lógica en el controlador correspondiente).
+// 2. El correo electrónico de cada usuario debe ser único y válido (validación en base de datos y en el formulario).
+// 3. No se permite el registro de usuarios con contraseñas menores a 8 caracteres (validación en el formulario y/o aquí).
+// 4. El sistema bloquea el acceso tras 5 intentos fallidos de inicio de sesión (ver controlador de login).
+// Historia de usuario:
+// Como administrador, quiero poder registrar nuevos usuarios con roles específicos, para que cada usuario tenga acceso solo a las funcionalidades permitidas según su rol.
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -13,18 +22,19 @@ if(!empty($_POST["registrar"])) {
         $email = $_POST["email"];
         $celular = $_POST["celular"];
         $contraseña = $_POST["con"];
-        $rol = $_POST["rol"];
+        $tipo = $_POST["rol"];
 
+        $conexion = Conexion::getInstancia()->getConexion();
         try {
-            $sql = $conexion->prepare("CALL registro_usuario(?, ?, ?, ?, ?, ?, ?)");
-            $sql->bind_param("ssssssi", $id, $nombre, $apellido, $email, $celular, $contraseña, $rol);
+            $sql = $conexion->prepare("CALL registro_usuario(?, ?, ?, ?, ?, ?)");
+            $sql->bind_param("ssssss", $id, $nombre, $apellido, $email, $celular, $tipo);
             
             if($sql->execute()) {
                 $_SESSION['mensaje'] = 'registrado';
                 header("Location: tablausu.php");
                 exit();
             } else {
-                echo "<div class='alert alert-danger'>Usuario ya registrado</div>";
+                echo "<div class='alert alert-danger'>Error MySQL: " . $sql->error . "</div>";
             }
         } catch(Exception $e) {
             echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";

@@ -1,0 +1,3 @@
+id,nombre,apellido,email,celular,contraseña,rol
+12345678,Juan,Pérez,juan.perez@email.com,0999999999,clave123,usuario
+87654321,Ana,García,ana.garcia@email.com,0988888888,segura456,vigilante 

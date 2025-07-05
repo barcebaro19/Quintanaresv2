@@ -1,5 +1,5 @@
 <?php
-include "models/conexion.php";
+require_once "models/conexion.php";
 include "controller/buscar_usuario.php";
 
 $resultado = null;
@@ -10,6 +10,45 @@ if(isset($_POST['buscar'])) {
 } else {
     $resultado = buscarUsuarios('');
 }
+
+// Solo mostrar el formulario si el usuario es administrador
+if (isset($_SESSION['nombre_rol']) && $_SESSION['nombre_rol'] === 'administrador') {
+?>
+<div class="mb-6">
+    <form action="importar_usuarios.php" method="POST" enctype="multipart/form-data" class="flex items-center gap-4">
+        <label class="font-semibold">Carga masiva de usuarios (CSV):</label>
+        <input type="file" name="archivo_csv" accept=".csv" required class="input input-bordered">
+        <button type="submit" class="btn btn-success">Importar CSV</button>
+        <a href="plantilla_usuarios.csv" class="btn btn-outline btn-info ml-2" download>
+            <i class="fas fa-download mr-1"></i>Descargar plantilla CSV
+        </a>
+    </form>
+    <p class="text-xs text-gray-500 mt-1">Solo archivos .csv con columnas: id, nombre, apellido, email, celular, rol</p>
+</div>
+<?php 
+    // Mostrar resultado de importación si existe
+    if (isset($_SESSION['import_result'])) {
+        $import = $_SESSION['import_result'];
+        unset($_SESSION['import_result']);
+?>
+    <div class="mb-4">
+        <div class="alert alert-success mb-2">
+            <i class="fas fa-check-circle mr-2"></i>
+            Usuarios importados correctamente: <b><?php echo $import['exitos']; ?></b>
+        </div>
+        <?php if (!empty($import['errores'])) { ?>
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <b>Errores encontrados:</b>
+            <ul class="list-disc ml-6">
+                <?php foreach ($import['errores'] as $err) { echo "<li>".htmlspecialchars($err)."</li>"; } ?>
+            </ul>
+        </div>
+        <?php } ?>
+    </div>
+<?php 
+    }
+} ?>
 ?>
 
 <!DOCTYPE html>
@@ -101,11 +140,22 @@ if(isset($_POST['buscar'])) {
                     <a href="registrarusu.php" class="btn btn-primary h-12 px-6 text-lg">
                         <i class="fas fa-user-plus mr-2"></i>Nuevo Usuario
                     </a>
+                    <form action="webservice_demo.php" method="POST" class="inline">
+                        <input type="email" name="email_ws" placeholder="Validar email WS" class="input input-bordered h-12" required>
+                        <button type="submit" class="btn btn-info h-12 px-6 text-lg ml-2">
+                            <i class="fas fa-globe mr-2"></i>Validar Email WS
+                        </button>
+                    </form>
                 </div>
             </div>
 
             <!-- Tabla -->
             <div class="overflow-x-auto">
+                <div class="flex justify-end mb-2">
+                    <a href="generate_pdf.php" class="btn btn-outline btn-error" target="_blank">
+                        <i class="fas fa-file-pdf mr-2"></i>Reporte general PDF
+                    </a>
+                </div>
                 <table class="table w-full">
                     <thead>
                         <tr class="bg-primary text-white">
@@ -114,7 +164,6 @@ if(isset($_POST['buscar'])) {
                             <th class="px-4 py-3">Apellido</th>
                             <th class="px-4 py-3">Email</th>
                             <th class="px-4 py-3">Celular</th>
-                            <th class="px-4 py-3">Contraseña</th>
                             <th class="px-4 py-3">Rol</th>
                             <th class="px-4 py-3 text-center">Acciones</th>
                         </tr>
@@ -130,7 +179,6 @@ if(isset($_POST['buscar'])) {
                             <td class="px-4 py-3"><?php echo $row['apellido']?></td>
                             <td class="px-4 py-3"><?php echo $row['email']?></td>
                             <td class="px-4 py-3"><?php echo $row['celular']?></td>
-                            <td class="px-4 py-3"><?php echo $row['contraseña']?></td>
                             <td class="px-4 py-3">
                                 <span class="px-3 py-1 rounded-full text-sm font-medium
                                     <?php 

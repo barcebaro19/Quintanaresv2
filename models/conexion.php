@@ -1,19 +1,31 @@
 <?php
-    $servidor = "localhost";
-    $usuario = "root";
-    $contrasena = "";
-    $db = "sistema_vigilancia";
+class Conexion {
+    private static $instancia = null;
+    private $conexion;
 
-    // Crear la conexión
-    $conexion = new mysqli($servidor, $usuario, $contrasena, $db);
+    private $servidor = "localhost";
+    private $usuario = "root";
+    private $contrasena = "";
+    private $db = "sistema_vigilancia";
 
-    // Establecer el conjunto de caracteres
-    $conexion->set_charset('utf8');
-
-    // Verificar la conexión
-    if ($conexion->connect_error) {
-        die("Falla en la conexión: " . $conexion->connect_error);
+    private function __construct() {
+        $this->conexion = new mysqli($this->servidor, $this->usuario, $this->contrasena, $this->db);
+        $this->conexion->set_charset('utf8');
+        if ($this->conexion->connect_error) {
+            die("Falla en la conexión: " . $this->conexion->connect_error);
+        }
     }
 
-    // echo "Conexión exitosa a la base de datos";
+    public static function getInstancia() {
+        if (self::$instancia === null) {
+            self::$instancia = new Conexion();
+        }
+        return self::$instancia;
+    }
+
+    public function getConexion() {
+        return $this->conexion;
+    }
+}
+// Uso: $conexion = Conexion::getInstancia()->getConexion();
 ?>

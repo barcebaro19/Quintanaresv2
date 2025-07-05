@@ -1,6 +1,8 @@
 <?php
 include "../models/conexion.php";
 
+$conexion = Conexion::getInstancia()->getConexion();
+
 if (isset($_GET['id']) || isset($_POST['id'])) {
     // Obtener ID ya sea por GET o POST
     $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];

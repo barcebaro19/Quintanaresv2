@@ -5,7 +5,7 @@ if(!isset($_SESSION['nombre']) || $_SESSION['nombre_rol'] !== 'propietario') {
     exit();
 }
 
-include "models/conexion.php";
+require_once "models/conexion.php";
 
 // Obtener los vehículos del usuario
 $stmt = $conexion->prepare("SELECT v.*, e.nombre as estado_nombre, p.numero as espacio_numero, p.nivel as espacio_nivel 

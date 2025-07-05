@@ -1,8 +1,8 @@
 <?php
-include "models/conexion.php";
+require_once "models/conexion.php";
 
 function buscarUsuarios($valor) {
-    global $conexion;
+    $conn = Conexion::getInstancia()->getConexion();
     
     $sql = "SELECT 
         u.id,
@@ -10,22 +10,17 @@ function buscarUsuarios($valor) {
         u.apellido,
         u.email,
         u.celular,
-        ur.contraseña,
-        r.nombre_rol
+        u.tipo AS nombre_rol
     FROM 
-        usu_roles ur 
-    INNER JOIN 
-        usuarios u ON ur.usuarios_id = u.id 
-    INNER JOIN 
-        roles r ON ur.roles_idroles = r.idroles";
+        usuarios u";
     
     if(!empty($valor)) {
         $sql .= " WHERE u.nombre LIKE ? OR u.id LIKE ?";
-        $stmt = $conexion->prepare($sql);
+        $stmt = $conn->prepare($sql);
         $busqueda = "%$valor%";
         $stmt->bind_param("ss", $busqueda, $busqueda);
     } else {
-        $stmt = $conexion->prepare($sql);
+        $stmt = $conn->prepare($sql);
     }
     
     $stmt->execute();

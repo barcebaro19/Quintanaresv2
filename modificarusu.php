@@ -9,7 +9,8 @@
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
     <?php
-    include "models/conexion.php";
+    require_once "models/conexion.php";
+    $conexion = Conexion::getInstancia()->getConexion();
 
     // Obtener el ID del usuario a modificar
     $id = $_GET['id'];

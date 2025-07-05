@@ -2,6 +2,8 @@
 session_start();
 include "../models/conexion.php";
 
+$conexion = Conexion::getInstancia()->getConexion();
+
 if (isset($_POST['login'])) {
     $cedula = $_POST['cedula'];
     $contrasena = $_POST['contrasena'];

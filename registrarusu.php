@@ -1,5 +1,5 @@
 <?php
-include "models/conexion.php";
+require_once "models/conexion.php";
 include "controller/usuario.php";
 ?>
 <!DOCTYPE html>
@@ -219,7 +219,7 @@ include "controller/usuario.php";
 
                     <form action="" method="POST" class="p-8">
                         <?php   
-                            include "models/conexion.php";
+                            require_once "models/conexion.php";
                             include "controller/usuario.php";
                         ?>
 
@@ -319,9 +319,9 @@ include "controller/usuario.php";
                                     <div class="relative">
                                         <select name="rol" class="select select-bordered w-full floating-input input-with-icon" required>
                                             <option value="">Seleccione un rol</option>
-                                            <option value="1">Administrador</option>
-                                            <option value="2">Vigilante</option>
-                                            <option value="3">Propietario</option>
+                                            <option value="administrador">Administrador</option>
+                                            <option value="vigilante">Vigilante</option>
+                                            <option value="propietario">Propietario</option>
                                         </select>
                                         <i class="fas fa-user-tag input-icon"></i>
                                     </div>
